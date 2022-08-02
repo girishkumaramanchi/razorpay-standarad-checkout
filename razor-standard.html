@@ -1,0 +1,45 @@
+<html>
+
+<head>
+</head>
+
+<body>
+    <input type="text" id="razorKey" />
+    <input type="text" id="razorOrderId" />
+    <button id="pay-btn">Pay Standard</button>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+        var options = {
+            key: "",// add razorpay key here
+            // rzp_test_cbwfDx2vukD9jT
+            // rzp_live_NoGaIDZ74lwGZa
+            name: "G K",
+            "order_id": "",
+            description: 'Subscription',
+            amount: 100, // razorpay takes amount in paisa
+            prefill: {
+                name: "G K",
+                email: 'test@gmail.com', // add your email id
+                contact: 9988776655
+            },
+            "handler": function (response){
+                alert(response.razorpay_payment_id);
+                alert(response.razorpay_order_id);
+                alert(response.razorpay_signature)
+            },
+        }
+        document.getElementById("pay-btn").onclick = function () {
+            options.key = document.getElementById("razorKey").value;
+            options.order_id = document.getElementById("razorOrderId").value;
+            window.Razorpay(options).open()
+            .on("payment.success", (res) => {
+                    console.log(res)
+                })
+                .on("payment.error", (err) => {
+                    console.log(err)
+                });
+        }
+    </script>
+</body>
+
+</html>
